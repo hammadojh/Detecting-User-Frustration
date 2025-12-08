@@ -1,0 +1,40 @@
+- I am going to work on a joint project with Dr. Chetouani   
+- Mostly in Human-agent interaction   
+- Basically the agent is trying to identify multiple people   
+- Based on that we want to adapt to the user   
+- So the big problem that they are having is making a socially effective agent    
+- This includes a lot of things like:   
+  - Understanding non-verbal cues.  
+  - Adapting communication style.  
+  - Managing interruptions and turn-taking.  
+  - Displaying appropriate emotional responses.  
+  - Recognizing and addressing social context.  
+  - Maintaining a consistent and believable persona.  
+  - …   
+- The team has investigated multiple research questions, such as:   
+- There are multiple ideas to work on: some of them were endorsed by Dr. Mohammed:  
+  - Building a more advanced user model including personality and emotions  
+  - Adapting to the user model in order to achieve a specific task   
+  - Detecting breakdown scenarios and overcoming them   
+- Since my focus is in user modeling and personalization I think I can work on the first one   
+- Later I need to define my lines of research that I can contribute to   
+- For now I need to dissect the research problem into a smaller problem and frame it very well to include all research components and add up to the full picture   
+- I will work on: Building a more advanced user model including personality and emotions  
+- But first I will read their existing work and learn from it.   
+  - The reason element paper have  proposed a novel RAG framework  to overcome the cold start problem that AI agents have when they try to personalize experience for the user.  it uses images, identify gender, age, country, and other demographics.  
+  -   
+- Ideas while i read:  
+  - Dynamically updating the user profile. When to update and when not to update.   
+  - Things I have to deeply understand: user modeling.   
+  - When I define the problem I have to think how am I going to evaluate it from the beginning.  
+  - Mohammed advised me to breakdown the problem into a smaller problem that we can measure. Interesting.   
+  - Remember, my goal is  my goal is to build a strong relationship between  myself and the center so that it opens opportunities for me in the future and to be able to do that I need to be focused efficient make people feel well, productive, unique, and friendly.  
+  - What if there was no vision? Text only. Can we learn using users writing habits.   
+  - Dr. Mohammed has advised that I have a big problem and dissect it t small problems so that we can collaborate with each other rather than getting distracted by random projects.   
+  - For me my big project should be under: user modeling, personalization, generative ai, applied ml, usability, etc. but I should also be significant to today and tomorrow’s needs. I think I can work on: conversational agents, generative user interfaces, speech user interfaces, invisible interfaces.   
+  - *Emotion classification from text is a **solved problem on small, clean datasets** like this — you’ll need harder setups (noisy, multilingual, or longer text) to push the field.*  
+  - There are many benchmarks and datasets that we can use to evaluate our model but the question is what do we want to do? What is important? What has been done before? What would be of significance and attention?   
+  - ّI think I need to look for papers that has detected any kind of emotion before it actually happens.  
+  - I can benefit from wide range of domain even social because If I can know what might makes a person get frustrated from their conversation I can basically do it in a chat.   
+- No papers have got very good results predicting the upcoming frustration yet.   
+- I need to explore EmoWIZ or I can see other datasets

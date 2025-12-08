@@ -1,0 +1,210 @@
+User Frustration Prediction in Task-Oriented Dialogue Systems
+Research Proposal
+Omar Hammad
+
+Background
+Task-Oriented Dialogue Systems (TODS) are conversational agents specifically designed to help users complete defined tasks—for instance, booking a flight, ordering food, or troubleshooting a product (Lee et al., 2021)
+Frustration is an emotional response resulting from an obstacle preventing the satisfaction of a need (Berkowitz, 1989)
+User frustration can stem from issues like low system performance, limited usefulness, poor usability (Hertzum and Hornbæk, 2023), Goal blockage, Time lost / effort wasted, frequency of breakdowns, unexpected system behavior and User-specific traits (Lazar, 2006)
+Predicting Frustration is important to: Maintaining user satisfaction, engagement, and retention (Hernandez Caralt et al., 2025)
+
+Background - Human Frustration
+More general key factors that influence human frustration in conversation:
+Conversation norms & expectations: expectation violations (Burgoon & Hale, 1988), repeated goal-blockage / time-loss (Lazar et al., 2006)
+Interaction dynamics: frequent interruptions (Ng & Bradac, 1993), conversational dominance (Danescu-Niculescu-Mizil et al. 2011)
+Cognitive & contextual load: high task complexity / cognitive load (Sweller, 1988), low relational trust / psychological safety (Rempel & Holmes, 1986)
+Momentary affect: negative baseline mood / irritability (Berkowitz, 1989), state boredom amplifying frustration (van Hooft & van Hooff 2018)
+Demographics & Culture: age-related emotion regulation (Charles & Carstensen, 2010), gender differences in emotional expressivity (Brody & Hall, 2008), high- vs. low-context cultural norms (Hall, 1976; Gudykunst & Ting-Toomey, 1988)
+
+Project Idea
+Build a ML pipeline to predict user frustration in TODS. 
+Establish a new benchmark for frustration prediction in TODS
+Customize different models for different contexts (small models, task-specific, .. etc)
+
+Recent Related work
+Date
+Ref
+Emotion 
+Method (core signals + model)
+Benchmark
+Score*
+Limits
+2020
+Zuters & Leonova, Cust-Sup. Challenge
+Frustration intensity change next turn
+Text (BoW, emoji, punctuation) → MLP ensemble
+Twitter customer-support threads
+Top-1 Acc 46 %
+Social-media style; no released split
+2023
+Li et al., “I Know Your Feelings…”,CHI LBR
+6-way emotion incl. frustration 1 turn
+Sequence ⟨Sys-DA, Sys-emo, User-emo⟩×4 → 2-layer Transformer
+1 120 WoZ robot dialogs (JP)
+Macro-F1 0.46
+Private; frustration diluted; no English TOD set
+2023
+Altarawneh et al., arXiv
+7 emotions 1–3 turns
+Speaker graph + recency → Dir. GCN
+MELD (Friends TV)
+Macro-F1 0.43
+Scripted TV; no frustration-only class
+2024
+Koga et al., INLG
+“Implicit” partner emotion 1–2 turns
+BERT embed + COMET cause/effect fusion
+DailyDialog + MELD
+Macro-F1 0.39
+Small crowd-labels; weak on frustration
+2025
+Telepathy Labs, COLING-Industry
+Frustration - same turn
+GPT-4 ICL prompt
+Live booking-bot logs
+F1 0.58
+Reactive only (0-ahead); proprietary data
+
+Related work - Observation
+No reproducible benchmark for one-turn-ahead task-oriented frustration: Li ’23 uses private Japanese WoZ; MELD/DailyDialog work on scripted or chit-chat corpora, not goal-oriented tasks.
+Performance ceiling still low (Macro-F1 ≤ 0.46): Li ’23 SOTA shows half the errors unsolved, frustration class F1 ≈ 0.32 .Graph‐based PEC (Altarawneh ’23) and commonsense fusion (Koga ’24) plateau near 0.40.
+Frustration often diluted in “generic negative” classes: Only Telepathy ’25 isolates frustration, but predicts same-turn.
+
+Related work - Methods
+Context-window LMs: Fine-tuned BERT/RoBERTa encoders on 1-to-4 concatenated turns; no GPT fine-tuning. (Li ’23: 2-layer Transformer; Altarawneh ’23: Bi-LSTM)
+Prompt-only GPT: No training—feed last turns to GPT-4 with a crafted system prompt for frustration detection. (Telepathy Labs ’25: GPT-4 in-context)
+Context windows remain short: Nearly all studies cap history at five turns or fewer. (Li ’23 uses 4-turn context; Koga ’24 and Altarawneh ’23 test N ≤ 3)
+Runtime is rarely reported: Inference latency is seldom disclosed, leaving real-time viability unclear. (Li ’23 ≈ 4 ms GPU; Telepathy ’25 and Altarawneh ’23 omit runtime)
+
+Related work - Scores
+Zuters & Leonova ’20 — Twitter CS; BoW + emoji MLP → Top-1 Acc 0.46
+Li ’23 – Transformer on WoZ robot dialogs → Macro-F1 0.46 
+Altarawneh ’23 – Speaker-recency GCN on MELD → Macro-F1 0.43 
+Koga ’24 – BERT + COMET on DailyDialog/MELD → Macro-F1 0.39 
+Telepathy Labs ’25  – GPT-4 prompt, same-turn → F1 0.58 
+
+Related work - Datasets
+EmoWOZ (2022) – Wizard-of-Oz hotel/restaurant dialogues; includes a dedicated dissatisfied label; English and task-oriented, making it the best base for a one-turn-ahead frustration benchmark.
+HSRI (2025) – 440 real human-robot videos with transcripts; 10 k annotations of social errors, emotions, and suggested fixes; good for cross-domain testing and repair mining, but not turn-shifted.
+MELD (2019) – Friends-TV multi-speaker subtitles (+ audio) with seven generic emotions; useful for multi-party experiments but scripted and lacks a frustration class.
+DailyDialog (2017) – 13 000 scripted everyday chats with seven emotions; easy to use but chit-chat style and no dissatisfaction tag.
+Telepathy Labs booking-bot logs (2025) – real customer chat with binary frustration, proprietary and same-turn only.
+WoZ Robot Restaurant (2023) – 1 120 Japanese dialogs with future emotion, unreleased.
+Twitter Customer-Support (2020) – frustration-intensity tweets; link now defunct.
+Bus-Info IVR (2011) – 95 Spanish IVR calls with next-turn angry/bored/satisfied, very small and private.
+Air-Travel IVR (2002) – small prosody-only speech set, closed.
+
+Research Gap, Questions and scope
+Gap: No open, task-oriented text benchmark yet surpasses Macro-F1 0.46 for frustration prediction. 
+Research Questions include:
+RQ1*: Given only the textual history of a task-oriented dialogue, how accurately can a model predict whether a user will feel frustration?
+RQ2: When facial expressions are fused with text, how much does one-turn-ahead frustration prediction improve over text-only?
+RQ3: Does incorporating user-persona vectors (e.g., interaction style, demographic cues) increase forecasting accuracy for future negative affect?
+RQ4:What is the minimum model size/latency that preserves ≥ 90 % of full-model Macro-F1 for real-time deployment on social robots?
+RQ5: How well does a model trained on TOD transfer to open-domain or multi-party settings (e.g., MELD, DailyDialog) without additional fine-tuning?
+*Start with Text-only dialogs, Include other modalities as we go.
+
+Method* - Data & Context 
+Dataset : EmoWOZ (task-oriented dialogs)
+Label shift : advance dissatisfied tag +1 user-turn ⇒ “will-be-frustrated” 
+Splits : 80 / 10 / 10 (dialog-level, no leakage)
+Context windows : last N = {1, 3, 5} user + system turns, speaker tokens kept & padded
+* This method is proposed and is open for discussion and suggestions
+
+Turn encoder : RoBERTa-base → CLS embedding
+Temporal aggregator : 2-layer GRU (256 h) 
+User-feature block
+Expectation mismatch: cosine(user, system)
+Interaction metrics: interruptions, dominance, turn gap
+Cognitive-load proxy: F-K grade, LM perplexity spike
+Trust / mood cues: hedging density, initial valence
+… 
+Fusion : concat [GRU | features] → LayerNorm → MLP (256 → 64 → 1, GELU, dropout 0.2) → sigmoid
+Method* - Model Architecture
+* This method is proposed and is open for discussion and suggestions
+
+Loss: class-weighted BCE
+Optimizer: 
+AdamW, 
+LR 2e-5,
+epochs 3–5
+Metrics
+Macro-F1 (primary)
+Baselines
+1 Majority-0 
+2 BERT-CLS (N = 1) 
+3 RoBERTa-CLS (N = 3) 
+4 RoBERTa + GRU (no features)
+Ablations
+Drop user-features 
+window N 
+remove system turns
+Method* - Training & Eval
+* This method is proposed and is open for discussion and suggestions
+
+Include more modalities
+Include more emotions 
+Do more advanced user modeling
+Make more efficient 
+Integrate with robot setting
+Include more than TODs
+Future Directions
+
+More lit review & exploration 
+Design study 
+Conduct study 
+Data analysis 
+Future directions
+Next Steps
+
+Appendix 
+
+Recent Related work
+Date
+Ref
+Emotion 
+Method (core signals + model)
+Benchmark
+Score*
+Limits
+2020
+Zuters & Leonova, Cust-Sup. Challenge
+Frustration intensity change next turn
+Text (BoW, emoji, punctuation) → MLP ensemble
+Twitter customer-support threads
+Top-1 Acc 46 %
+Social-media style; no released split
+2023
+Li et al., “I Know Your Feelings…”,CHI LBR
+6-way emotion incl. frustration 1 turn
+Sequence ⟨Sys-DA, Sys-emo, User-emo⟩×4 → 2-layer Transformer
+1 120 WoZ robot dialogs (JP)
+Macro-F1 0.46
+Private; frustration diluted; no English TOD set
+2023
+Altarawneh et al., arXiv
+7 emotions 1–3 turns
+Speaker graph + recency → Dir. GCN
+MELD (Friends TV)
+Macro-F1 0.43
+Scripted TV; no frustration-only class
+2024
+Koga et al., INLG
+“Implicit” partner emotion 1–2 turns
+BERT embed + COMET cause/effect fusion
+DailyDialog + MELD
+Macro-F1 0.39
+Small crowd-labels; weak on frustration
+2025
+Telepathy Labs, COLING-Industry
+Frustration - same turn
+GPT-4 ICL prompt
+Live booking-bot logs
+F1 0.58
+Reactive only (0-ahead); proprietary data
+
+Related work - Methods
+Context-window LMs: Fine-tuned BERT/RoBERTa encoders on 1-to-4 concatenated turns; no GPT fine-tuning. (Li ’23: 2-layer Transformer; Altarawneh ’23: Bi-LSTM)
+Prompt-only GPT: No training—feed last turns to GPT-4 with a crafted system prompt for frustration detection. (Telepathy Labs ’25: GPT-4 in-context)
+Context windows remain short: Nearly all studies cap history at five turns or fewer. (Li ’23 uses 4-turn context; Koga ’24 and Altarawneh ’23 test N ≤ 3)
+Runtime is rarely reported: Inference latency is seldom disclosed, leaving real-time viability unclear. (Li ’23 ≈ 4 ms GPU; Telepathy ’25 and Altarawneh ’23 omit runtime)
