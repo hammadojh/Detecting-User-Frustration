@@ -12,13 +12,14 @@ Research project on predicting user frustration in task-oriented dialogue system
 
 ## Progress
 
-
 ### Todo
+- Cross-domain robustness testing (transfer to DailyDialog/MELD)
+- Experiment with multiple turns combinations
+- Including vs excluding assistant responses 
 
-- **Experiment E3**: Cross-domain robustness testing (transfer to DailyDialog/MELD)
-- **Experiment E2**: Multi-modal fusion (text + vision) with User-VLM integration
-- **Pepper Integration**: User-VLM vision encoder integration and ROS bridge setup
-- **Wizard-of-Oz Pilot (E4)**: 30 live Pepper sessions with human-escalation measurement
+### Future
+- Multi-modal fusion (text + vision) with User-VLM integration
+- 30 live sessions with human measurement
 
 ### Completed
 
